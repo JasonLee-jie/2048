@@ -1,0 +1,16 @@
+void init()
+{
+    int x, y;
+
+    initscr();
+    cbreak();
+    noecho();
+    curs_set(0);
+
+    empty = 15;
+    srand(time(0));
+    x = rand() % 4;
+    y = rand() % 4;
+    a[y][x] = 2;
+    draw();
+}

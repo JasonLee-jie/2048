@@ -17,7 +17,6 @@ void draw_one(int y, int x);  // 绘制单个数字
 void cnt_value(int *new_y, int *new_x);
 int game_over();  // 结束游戏
 int cnt_one(int y, int x);
-
 int main()
 {
     init();
@@ -26,23 +25,7 @@ int main()
 
     return 0;
 }
-
-void init()           //首先调用init进行初始化一些关键参数
-{
-    sleep(1);
-    endwin();
-    exit(0);
-}
-{
-    sleep(1);
-    endwin();
-    exit(0);
-}
-{
-    sleep(1);
-    endwin();
-    exit(0);
-}
+void init()
 {
     int x, y;
 
@@ -57,8 +40,8 @@ void init()           //首先调用init进行初始化一些关键参数
     y = rand() % 4;
     a[y][x] = 2;
     draw();
-}           //init函数首先初始化屏幕，并且随机生成两个数字x,y用于指定方格的位置坐标，并给数组a[][]中相应位存入数字2
-
+}
+void draw()
 {
     int n, m, x, y;
     char c[4] = {'0', '0', '0', '0'};
@@ -90,8 +73,7 @@ void init()           //首先调用init进行初始化一些关键参数
         }
     }
 }
-
-void draw_one(int y, int x)             //draw_one()函数用于绘制单个数字
+void draw_one(int y, int x)
 {
     int i, m, k, j;
     char c[5] = {0x00};
@@ -112,16 +94,15 @@ void draw_one(int y, int x)             //draw_one()函数用于绘制单个数�
         k--;
     }
 }
-
-void play()                 //代码核心 游戏函数运行主体
+void play()
 {
     int x, y, i, new_x, new_y, temp;
     int old_empty, move;
     char ch;
-    
-    while(1)                    //我们通过w s a d 和方向键来分别控制上，下，左，右方向的移动，按Q键可以退出界面。
-    { 
-        move = 0;               
+
+    while(1)
+    {
+        move = 0;
         old_empty = empty;
         ch = getch();
         switch(ch) {
@@ -361,10 +342,9 @@ void play()                 //代码核心 游戏函数运行主体
         }
         draw();
     }
-}                               //核心代码结束
-                                             
+}
 // 统计(y, x)对应的格子周围一圈的空格的个数
-int cnt_one(int y, int x)                   //此函数用于生成新数字的位置
+int cnt_one(int y, int x)
 {
     int value = 0;
 
@@ -414,11 +394,10 @@ void cnt_value(int *new_y, int *new_x)
             }
         }
 }
-
-int game_over()         //游戏结束子函数
+int game_over()
 {
     sleep(1);
-    endwin();           //endwin()函数关闭游戏窗口
+    endwin();
     exit(0);
 }
 

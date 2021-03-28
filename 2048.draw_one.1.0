@@ -1,0 +1,21 @@
+void draw_one(int y, int x)
+{
+    int i, m, k, j;
+    char c[5] = {0x00};
+    i = a[y][x];
+    m = 0;
+    while(i > 0)
+    {
+        j = i % 10;
+        c[m++] = j + '0';
+        i = i / 10;
+    }
+    m = 0;
+    k = (x + 1) * 5 - 1;
+    while(c[m] != 0x00)
+    {
+        move(2*y+1, k);
+        addch(c[m++]);
+        k--;
+    }
+}

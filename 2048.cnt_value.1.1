@@ -1,0 +1,26 @@
+void cnt_value(int *new_y, int *new_x)
+{
+    int max_x, max_y, x, y, value;
+    int max = 0;
+
+    max = cnt_one(*new_y, *new_x);
+    for(y = 0; y < 4; y++)
+        for(x = 0; x < 4; x++)
+        {
+            // 如果(y, x)对应的空格为空
+            if(!a[y][x])
+            {
+                // 优先选取周围空格最多的空格展示新数字
+                value = cnt_one(y, x);
+                if(value > max && old_y != y && old_x != x)
+                {
+                    // 避免在同一位置反复出现新数字
+                    *new_y = y;
+                    *new_x = x;
+                    old_x = x;
+                    old_y = y;
+                    break;
+                }
+            }
+        }
+}

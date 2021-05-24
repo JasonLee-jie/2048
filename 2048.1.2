@@ -1,44 +1,82 @@
-#include<stdio.h>  //标准输入输出
-#include<stdlib.h>  //基本工具函数
-#define bool int  //C里边没有布尔类型,就自己造
-#define true 1   //bool的两种值
-#define false 0
-int MAP[4][4] = { 0 };  //地图,默认0认为是空位
-typedef enum {   //定义一个方向类型的枚举变量
-    UNKNOW,
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-} Direction;
+//项目名称：2048小游戏
+#include<stdio.h>  
+#include<stdlib.h>  
+#define bool int  //因为C里边没有布尔类型,就需要自己宏定义一个，用于选择获取指令的正确性  实质上是创建一个与Java类似boolean类型 用于接收是否执行用户接下来指令的可执行性！
+#define true 1    //bool的第一种值       为真   取1为真！
+#define false 0   //bool的第二种值       为假   取0为假！
+//预处理结束
 
-void printMap();  //绘制图形
-Direction getNextDirection(); //从键盘读入下一个用户操作
-bool canMove(Direction direction); //判断是否可以进行指定方向的操作
-void doAction();   //游戏事件
-void move(Direction direction);  //移动数字
-void putNew();    //放入一个新的数字
-int main() {    //主函数
-    Direction nextStep;   //下一步
-    int i, j;
-    srand(time(0));
-    putNew();    //游戏开始默认放两个数字
-    putNew();
-    printMap();    //打印格子
+
+
+
+
+int MAP[4][4] = { 0 };  //地图的初始化,默认0认为是空位，整张地图的版面是4X4=16的格局，在这说明一点地图中呈现的数字都靠每个方格的左侧
+
+
+
+
+
+typedef enum {      //定义一个方向类型的枚举变量 并且在这里我们重新取名 新的名称为Direction(方向)
+    UNKNOW,         //用户如果键入错误指令
+    UP,             //上
+    DOWN,           //下
+    LEFT,           //左
+    RIGHT           //右
+} Direction;        //方向
+
+
+
+
+
+
+Direction getNextDirection();      //从键盘读入下一个用户操作指令                     方向键函数
+bool canMove(Direction direction); //判断是否可以进行指定方向的操作                   能否移动函数      返回值是  要么为真  要么为假
+void printMap();                   //绘制整个游戏的图形                               图形函数          无返回值
+void doAction();                   //主体的游戏事件                                   游戏事件函数      无返回值
+void move(Direction direction);    //移动出现的所有数字                               移动数字函数      无返回值
+void putNew();                     //放入一个新的数字                                 新数字函数        无返回值
+
+
+
+
+//主体逻辑
+int main() {              //主函数
+    Direction nextStep;   //下一步 前面我们的Direction是一个枚举的新类型 nextStep显然进行下一步的操作
+    int i, j;             //在这里我不用指针,反到觉得麻烦
+
+    srand(time(0));       /*选取种子文件，生成伪随机数序列的种子 参数time(0)是rand()函数的种子，用来初始化rand()的起始值 在这里显然我们第一次调用了srand函数，
+                            那么我们后期的rand函数会先去审查自动调用srand(time(0))一次来初始化它的起始值。*/
+
+    //游戏开始默认放两个数字 这个函数中就调用了rand 处理该函数时srand就显得尤为重要,每次游戏重新开始时都会随机生成两个数字
+    putNew();             //第一个数
+    putNew();             //第二个数
+
+    printMap();           //打印格子    调用图形函数    无返回值
+
     while (1) {
-        if (!canMove(UP) && !canMove(LEFT) && !canMove(DOWN) && !canMove(RIGHT)) break; //任意方向都不能移动,那么终止游戏
-        nextStep = getNextDirection();  //获取下一个用户操作
+
+        if (!canMove(UP) && !canMove(LEFT) && !canMove(DOWN) && !canMove(RIGHT)) break; //此if语句是用来判断如果任意方向都不能移动,那么终止游戏。  作为游戏结束标志！
+
+        nextStep = getNextDirection();     //获取下一个用户操作 当然要用户键入正确的功能键 存放到nextStep
+
         if (nextStep == UNKNOW) continue;  //如果不知道用户按了个什么键或者用户胡乱按的,那么进入新的循环
-        if (!canMove(nextStep)) continue; //如果下一步不可继续操作,进入新的循环
-        system("cls");    //对于Windows来说,执行命令行命令cls清屏
-        doAction(nextStep);   //执行操作
-        putNew();    //放新的数字
-        printMap();    //打印格子
+
+        if (!canMove(nextStep)) continue;  //如果下一步不可继续操作,进入新的循环
+
+        system("cls");        //对于Windows来说,执行命令行命令cls清屏,特殊操作
+        doAction(nextStep);   //执行操作        执行事件函数
+        putNew();             //放新的数字      每次移动都会补充新的数字
+        printMap();           //打印格子        在循环中调用图形函数
+
     }
-    printf("You Died!");   //提示游戏结束
-    while (1);     //等待游戏结束
+    printf("Stephen Curry is the MVP！！！ So You Died!");   //提示游戏结束
+    while (1);                                               //等待游戏结束 一个简单的等待操作 缓冲游戏所有操作结束等待退出
 }
 
+
+
+
+//图形函数
 void printMap() {
     int i, j;
     printf("*-------*-------*-------*-------*\n");
@@ -52,20 +90,26 @@ void printMap() {
         }
         printf("*-------*-------*-------*-------*\n");
     }
-}
+}//简单来说就是把整个游戏的框给绘制出来 
+
+
+
+
+//事件函数
 void doAction(Direction direction) {
     int i, j, k;
     /**
-     * 为了方便处理问题,将每个方向的运动操作简化为三步
+     * 为了方便处理问题不搞得复杂,将每个方向的运动操作简化为三步,仅仅就三步
      * 1.将数字归并到一个方向
      * 2.处理相同数字可消,并将消掉的数据定为0
      * 3.再次将数字归并到一个方向
      */
-     //1.移动数字,取消数字之间的空位
+
+    //1.移动数字,取消数字之间的空位
     move(direction);
     //2.按照方向处理相同数字
     switch (direction) {
-    case UP:
+    case UP://上
         //按列枚举
         for (i = 0; i < 4; i++) {
             //对于每一行的每一个元素
@@ -78,7 +122,7 @@ void doAction(Direction direction) {
             }
         }
         break;
-    case LEFT://同上
+    case LEFT://左
         for (i = 0; i < 4; i++)
             for (j = 0; j < 3; j++)
                 if (MAP[i][j] && MAP[i][j] == MAP[i][j + 1]) {
@@ -86,7 +130,7 @@ void doAction(Direction direction) {
                     MAP[i][j + 1] = 0;
                 }
         break;
-    case DOWN://同上
+    case DOWN://下
         for (i = 0; i < 4; i++)
             for (j = 3; j > 0; j--)
                 if (MAP[j][i] && MAP[j][i] == MAP[j - 1][i]) {
@@ -94,7 +138,7 @@ void doAction(Direction direction) {
                     MAP[j - 1][i] = 0;
                 }
         break;
-    case RIGHT://同上
+    case RIGHT://右
         for (i = 0; i < 4; i++)
             for (j = 3; j > 0; j--)
                 if (MAP[i][j] && MAP[i][j] == MAP[i][j - 1]) {
@@ -106,6 +150,11 @@ void doAction(Direction direction) {
     //3.移动数字,取消因为上一步置零过程中新产生的空位
     move(direction);
 }
+
+
+
+
+//移动数字函数
 void move(Direction direction) { //移动数字
     int i, j, k;
     switch (direction) {
@@ -155,6 +204,11 @@ void move(Direction direction) { //移动数字
         break;
     }
 }
+
+
+
+
+//能否移动函数
 bool canMove(Direction direction) { //判断是否可以进行指定方向的操作
     int i, j;
     switch (direction) {
@@ -223,11 +277,16 @@ bool canMove(Direction direction) { //判断是否可以进行指定方向的操
     //当允许条件都被检查过后,返回不可执行的结果
     return false;
 }
+
+
+
+
+//方向键函数
 Direction getNextDirection() {
     //第一个字节必须是224,否则判定输入的不是功能键
     if (getch() != 224) return UNKNOW;
     //根据第二字节对应出来用户的操作
-    switch (getch()) {
+    switch (getch()) {    //键盘上的功能键
     case 72:
         return UP;
     case 80:
@@ -239,10 +298,16 @@ Direction getNextDirection() {
     default:
         return UNKNOW;
     }
-}
+}//对应功能键的判断用他们对应的ASSIC值
+
+
+
+
+
+//新数字函数
 void putNew() {
     //为了方便操作,临时存储一下所有空闲格子的指针,这样可以用一个线性的内存随机访问实现对所有空位中任一空位的随机访问.
-    int* boxes[16] = { NULL };
+    int* boxes[16] = { NULL };//初始所有的格子内都是NULL
     //用来临时保存目标格子的地址
     int* target;
     //统计一共有多少个有效空格
@@ -258,7 +323,17 @@ void putNew() {
     if (count) {
         //如果有空位,那么对这一位进行随机赋值操作,对于每一位可能性是相同的
         target = boxes[rand() % count];
-        //50%可能出现2 50% 可能出现4
-        *target = rand() % 2 ? 2 : 4;
+        //50%可能出现2  50% 可能出现4
+        *target = rand() % 2 ? 2 : 4;//下次指令要么生成2，要么生成4   有且仅生成这两个数字!!
     }
 }
+
+//项目开始时间2021年1月18日
+//项目终止时间2021年4月12日
+//项目负责人:李志杰
+//项目优化前代码行数428行
+//项目优化后代码行数269行
+//项目总结：实际上可以将游戏描述为四个带有方向的同一操作！
+//1、将所有数字向一个方向移动至中间没有空位。
+//2、将相邻的两个相同的数字加和然后放在更靠近移动方向前部的一个位置上,另外需要判断一下玩家当前输入的内容是否可以执行，如果不可以执行等待用户下一条记录。
+//同时需要对游戏的进程进行控制，如果可以继续游戏，那么运行玩家继续输入下一条指令，而如果不可以进行，那么提示无法继续游戏的提示。

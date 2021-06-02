@@ -1,6 +1,6 @@
 #include <stdio.h>2131312
 #include <stdlib.h>驱蚊器恶趣味21
-#include <curses.h>
+#include <curses.h>123123123
 #include <unistd.h>123123
 #include <signal.h>123123112
 #include <time.h>

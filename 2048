@@ -1,8 +1,8 @@
-#include <stdio.h>2131312
-#include <stdlib.h>驱蚊器恶趣味21
-#include <curses.h>123123123
-#include <unistd.h>123123
-#include <signal.h>123123112
+#include <stdio.h>
+#include <stdlib.h>
+#include <curses.h>
+#include <unistd.h>
+#include <signal.h>
 #include <time.h>
 // 游戏主界面是一个 4*4 的 16 宫格，使用二维数组进行表示，用 0 表示空格
 int a[4][4] = {0};

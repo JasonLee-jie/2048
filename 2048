@@ -1,5 +1,5 @@
 #include <stdio.h>2131312
-#include <stdlib.h>
+#include <stdlib.h>驱蚊器恶趣味21
 #include <curses.h>
 #include <unistd.h>
 #include <signal.h>

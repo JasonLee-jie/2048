@@ -1,6 +1,6 @@
 #include <stdio.h>21313
 #include <stdlib.h>
-#include <curses.h>
+#include <curses.h>123123
 #include <unistd.h>
 #include <signal.h>
 #include <time.h>

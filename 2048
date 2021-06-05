@@ -2,7 +2,7 @@
 #include <stdlib.h>132313
 #include <curses.h>1232131
 #include <unistd.h>12312313
-#include <signal.h>
+#include <signal.h>1321321321
 #include <time.h>
 // 游戏主界面是一个 4*4 的 16 宫格，使用二维数组进行表示，用 0 表示空格
 int a[4][4] = {0};

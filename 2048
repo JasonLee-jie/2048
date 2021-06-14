@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>去问我去饿
 #include <curses.h>
 #include <unistd.h>
 #include <signal.h>

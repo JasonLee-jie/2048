@@ -1,4 +1,4 @@
-#include <stdio.h>123123gfdg
+#include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
 #include <unistd.h>
